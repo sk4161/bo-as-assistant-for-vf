@@ -138,6 +138,36 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectButton = document.createElement('button');
             selectButton.textContent = 'Select this style';
             selectButton.addEventListener('click', function() {
+                let preferredData = val;
+                let otherData = values.filter(item => item !== val);
+                // Normalize preferredData
+                preferredData = Array.from(sliders, slider => {
+                    const { min, max } = sliderRange[parseInt(slider.getAttribute('data-index'))];
+                    const value = parseFloat(preferredData[parseInt(slider.getAttribute('data-index'))]);
+                    const normalizedValue = (value - min) / (max - min); // Normalize the value
+                    return normalizedValue;
+                });
+                // Normalize otherData
+                otherData = otherData.map(item => {
+                    return Array.from(sliders, slider => {
+                        const { min, max } = sliderRange[parseInt(slider.getAttribute('data-index'))];
+                        const value = parseFloat(item[parseInt(slider.getAttribute('data-index'))]);
+                        const normalizedValue = (value - min) / (max - min); // Normalize the value
+                        return normalizedValue;
+                    });
+                });
+                // Get current slider values
+                const currentData = Array.from(sliders, slider => {
+                    const { min, max } = sliderRange[parseInt(slider.getAttribute('data-index'))];
+                    const value = parseFloat(slider.value);
+                    const normalizedValue = (value - min) / (max - min); // Normalize the value
+                    return normalizedValue;
+                });
+                // Add current slider values to otherData
+                otherData.push(currentData);
+                // Send data to Python
+                sendDataToPython({ preferredData: preferredData, otherData: otherData });
+
                 sliders.forEach((slider, i) => {
                     slider.value = val[i];
                     container.style.setProperty(`--${slider.id}`, val[i]);
