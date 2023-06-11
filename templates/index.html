@@ -9,7 +9,7 @@
 <body>
   <main class="container">
     <h1>Variable Font Slider Demo</h1>
-    <h2>Text</h2>
+    <h2>Preview</h2>
     <div>
       <div class="demo-text">Tokyo</div>
     </div>
@@ -17,40 +17,40 @@
     <div class="controls">
       <!-- Weight Controls -->
       <div class="slider-container">
-        <input type="range" min="100" max="900" value="500" class="slider" id="text-weight" name="text-weight" data-index="0">
         <div class="slider-controls">
           <label for="text-weight" class="slider-label">
             Weight: <span class="output" data-index="0"></span>
           </label>
         </div>
+        <input type="range" min="100" max="900" value="500" class="slider" id="text-weight" name="text-weight" data-index="0">
       </div>
       <!-- Width Controls -->
       <div class="slider-container">
-        <input type="range" min="75" max="100" value="100" class="slider" id="text-width" name="text-width" data-index="1">
         <div class="slider-controls">
           <label for="text-width" class="slider-label">
             Width: <span class="output" data-index="1"></span>
           </label>
         </div>
+        <input type="range" min="75" max="100" value="100" class="slider" id="text-width" name="text-width" data-index="1">
       </div>
       <!-- Slant Controls -->
       <div class="slider-container">
-        <input type="range" min="0" max="12" value="0" class="slider" id="text-slant" name="text-slant" data-index="2">
         <div class="slider-controls">
           <label for="text-slant" class="slider-label">
             Slant: <span class="output" data-index="2"></span>
           </label>
         </div>
+        <input type="range" min="0" max="12" value="0" class="slider" id="text-slant" name="text-slant" data-index="2">
       </div>
     </div>
     <h2>Suggestions</h2>
-    <div id="regenerateButtonContainer">
-      <button id="regenerateButton">Regenerate Suggestion</button>
-    </div>
     <div id="suggestions">
       <div class="suggestion"></div>
       <div class="suggestion"></div>
       <div class="suggestion"></div>
+    </div>
+    <div id="regenerateButtonContainer">
+      <button id="regenerateButton">Regenerate Suggestions</button>
     </div>
   </main>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
