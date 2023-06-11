@@ -1,11 +1,6 @@
 :root {
   --base-color: #333;
   --bg-color: #f9f9f9;
-  --button-text-color: #ffffff;
-  --dark-orange: #d14a1b;
-  --darker-orange: #b83a13;
-  --disabled-color: #aaa;
-  --disabled-grey: #ddd;
   --light-grey: #eee;
   --main-color: #1a237e;
   --text-slant: 0;
@@ -104,32 +99,4 @@ body {
 
 .slider::-webkit-slider-thumb:active, .slider::-moz-range-thumb:active {
   cursor: grabbing;
-}
-
-.button {
-  background: var(--main-color);
-  border: none;
-  border-radius: 6px;
-  color: var(--button-text-color);
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 400;
-  opacity: 1;
-  padding: .25rem .75rem;
-  text-transform: uppercase;
-  transition: background .2s ease-in;
-}
-
-.button:hover, .button:focus {
-  background: var(--dark-orange);
-}
-
-.button:active {
-  background: var(--darker-orange);
-}
-
-.button:disabled {
-  background: var(--disabled-grey);
-  color: var(--disabled-color);
-  cursor: not-allowed;
 }

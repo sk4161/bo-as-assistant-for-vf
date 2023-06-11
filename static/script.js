@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const container = document.querySelector('.container');
     const sliders = document.querySelectorAll('.slider');
     const sliderValues = document.querySelectorAll('.output');
-    const buttons = document.querySelectorAll('.button');
     const directionMap = new Map(); // to track direction of each slider
     const directionChangeData = new Map(); // to track direction change data of each slider
 
@@ -67,18 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             sendDataToPython(dataPackage);
         });
-    });
-
-    // Reset text property and update display property value for each slider
-    buttons.forEach(button => {
-        const buttonIndex = button.getAttribute('data-index');
-        const resetOutput = document.querySelector(`.output[data-index='${buttonIndex}']`);
-        const resetSlider = document.querySelector(`.slider[data-index='${buttonIndex}']`);
-        button.onclick = function() {
-            container.style.removeProperty(`--${resetSlider.id}`);
-            resetOutput.innerHTML = resetSlider.defaultValue;
-            resetSlider.value = resetSlider.defaultValue;
-        };
     });
 
     // Function to send data to Python
