@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
             demoText.style.fontWeight = val[0];
             demoText.style.fontStretch = `${val[1]}%`;
             demoText.style.fontStyle = `oblique ${val[2]}deg`;
+            demoText.style.fontVariationSettings = `"wght" ${val[0]}, "wdth" ${val[1]}, "slnt" ${val[2]}`;
 
             const selectButton = document.createElement('button');
             selectButton.textContent = 'Select this style';
