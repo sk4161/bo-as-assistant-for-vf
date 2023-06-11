@@ -180,4 +180,38 @@ document.addEventListener('DOMContentLoaded', function() {
             suggestionsContainer.appendChild(suggestionContainer);
         });
     };
+
+    regenerateButton.addEventListener('click', function() {
+        // Get suggeqstions
+        const suggestions = document.querySelectorAll('.suggestion');
+        const values = Array.from(suggestions, suggestion => {
+            const demoText = suggestion.querySelector('.suggested-text');
+            const fontWeight = demoText.style.fontWeight;
+            const fontStretch = parseInt(demoText.style.fontStretch.substring(0, demoText.style.fontStretch.length - 1));
+            const fontStyle = parseInt(demoText.style.fontStyle.substring(8, demoText.style.fontStyle.length - 3));
+            return [fontWeight, fontStretch, fontStyle];
+        });
+        // Normalize values
+        const normalizedSuggestions = values.map(val => {
+            return Array.from(sliders, slider => {
+                const { min, max } = sliderRange[parseInt(slider.getAttribute('data-index'))];
+                const value = parseFloat(val[parseInt(slider.getAttribute('data-index'))]);
+                const normalizedValue = (value - min) / (max - min); // Normalize the value
+                return normalizedValue;
+            });
+        });
+        const otherData = normalizedSuggestions;
+        // Get current slider values
+        const currentData = Array.from(sliders, slider => {
+            const { min, max } = sliderRange[parseInt(slider.getAttribute('data-index'))];
+            const value = parseFloat(slider.value);
+            const normalizedValue = (value - min) / (max - min); // Normalize the value
+            return normalizedValue;
+        });
+        // Current slider values are preferred data
+        const preferredData = currentData;
+
+        // Send data to Python
+        sendDataToPython({ preferredData: preferredData, otherData: otherData });
+    });
 });

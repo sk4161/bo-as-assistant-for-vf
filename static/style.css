@@ -110,6 +110,29 @@ body {
   cursor: grabbing;
 }
 
+#regenerateButtonContainer {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+#regenerateButton {
+  padding: 0.25rem 0.25rem;
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 200px;
+  height: 50px;
+}
+
+#regenerateButton:hover {
+  background-color: black;
+}
+
 #suggestions {
   display: flex;
   justify-content: space-around;
@@ -132,18 +155,22 @@ body {
 .suggested-text {
   width: 100%;
   font-size: 5rem;
+  margin-bottom: 0.5rem;
 }
 
 button {
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 0.25rem;
   background-color: var(--main-color);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-  width: 150px;
-  height: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 140px;
+  height: 35px;
+  margin-top: 0.5rem;
 }
 
 button:hover {
