@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sliderValues = document.querySelectorAll('.output');
     const buttons = document.querySelectorAll('.button');
     const directionMap = new Map(); // to track direction of each slider
+    const directionChangeData = new Map(); // to track direction change data of each slider
 
     // Display property values
     for (let i = 0; i < sliders.length; i++) {
@@ -38,7 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     index: sliderIndex,
                     value: previousValue
                 }; // Save data to send if direction change gets confirmed
-                sendDataToPython(dataToPython); // Send data of the point before direction changed
+                if (!directionChangeData.has(slider)) {
+                    directionChangeData.set(slider, []);
+                }
+                directionChangeData.get(slider).push(dataToPython);
                 flagDirectionChanged = false; // Reset flag
             }
 
@@ -46,12 +50,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         slider.addEventListener('change', function() {
-            const data = {
+            const finalValue = {
                 index: sliderIndex,
                 value: this.value
             };
 
-            sendDataToPython(data);
+            let dataPackage = {
+                preferredData: finalValue,
+                otherData: []
+            };
+
+            if (directionChangeData.has(slider)) {
+                dataPackage.otherData = directionChangeData.get(slider);
+                directionChangeData.delete(slider);
+            }
+
+            sendDataToPython(dataPackage);
         });
     });
 
@@ -64,22 +78,17 @@ document.addEventListener('DOMContentLoaded', function() {
             container.style.removeProperty(`--${resetSlider.id}`);
             resetOutput.innerHTML = resetSlider.defaultValue;
             resetSlider.value = resetSlider.defaultValue;
-
-            const data = {
-                index: buttonIndex,
-                value: resetSlider.defaultValue
-            };
         };
     });
 
     // Function to send data to Python
-    function sendDataToPython(data) {
+    function sendDataToPython(dataPackage) {
         fetch('/api/data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(dataPackage)
         })
         .then(response => {
             return response.json();

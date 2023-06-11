@@ -8,13 +8,13 @@ def index():
 
 @app.route('/api/data', methods=['POST'])
 def receive_data():
-    data = request.json # Get data sent from JavaScript
+    data_package = request.json # Get data sent from JavaScript
 
-    index = data['index']
-    value = data['value']
+    preferred_data = data_package['preferredData']
+    print(f'Preferred Data - Slider Index: {preferred_data["index"]}, Value: {preferred_data["value"]}')
 
-    # Print received data
-    print(f'Slider Index: {index}, Value: {value}')
+    other_data_list = data_package['otherData']
+    print(f'Other Data: {other_data_list}')
 
     response = {'message': 'Data received successfully'} # Send response to JavaScript
     return jsonify(response)
