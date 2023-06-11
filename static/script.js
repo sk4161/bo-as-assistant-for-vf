@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const directionMap = new Map(); // to track direction of each slider
     const directionChangeData = new Map(); // to track direction change data of each slider
 
+    // Get slider range
+    const sliderRange = [];
+    sliders.forEach(slider => {
+        const min = parseFloat(slider.getAttribute('min'));
+        const max = parseFloat(slider.getAttribute('max'));
+        sliderRange.push({ min, max });
+    });
+
     // Display property values
     for (let i = 0; i < sliders.length; i++) {
         sliderValues[i].innerHTML = sliders[i].value;
@@ -52,19 +60,22 @@ document.addEventListener('DOMContentLoaded', function() {
             let sliderIndex = parseInt(slider.getAttribute('data-index'));
 
             // Collect data from all sliders
-            let allData = Array(sliders.length).fill(0); // Initialize allData with zeros
-            let allOtherData = []; // Initialize allOtherData as an empty array
-
-            sliders.forEach(slider => {
-                let index = parseInt(slider.getAttribute('data-index'));
-                allData[index] = slider.value; // Fill allData with the current values of sliders
+            let allData = Array.from(sliders, slider => {
+                const { min, max } = sliderRange[parseInt(slider.getAttribute('data-index'))];
+                const value = parseFloat(slider.value);
+                const normalizedValue = (value - min) / (max - min); // Normalize the value
+                return normalizedValue;
             });
 
+            let allOtherData = []; // Initialize allOtherData as an empty array
             if (directionChangeData.has(slider)) {
                 // For each direction change data point, create an array of all slider values, replacing the value of the current slider with the direction change data point
                 directionChangeData.get(slider).forEach(data => {
                     let tempData = [...allData]; // Create a copy of allData
-                    tempData[sliderIndex] = data.value; // Replace the value of the current slider with the direction change data point
+                    const { min, max } = sliderRange[parseInt(slider.getAttribute('data-index'))];
+                    const value = parseFloat(data.value);
+                    const normalizedValue = (value - min) / (max - min); // Normalize the value
+                    tempData[sliderIndex] = normalizedValue; // Replace the value of the current slider with the direction change data point
                     allOtherData.push(tempData);
                 });
                 directionChangeData.delete(slider); // Clear the direction change data for the slider

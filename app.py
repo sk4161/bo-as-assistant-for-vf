@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import numpy as np
+from bayesian_optimization import BayesianOptimizer
 
 app = Flask(__name__)
+BayesianOptimizer = BayesianOptimizer()
 
 @app.route('/')
 def index():
@@ -18,6 +20,11 @@ def receive_data():
     # Convert other options to a numpy array (float64)
     other_options = [np.array(data, dtype=np.float64) for data in data_package['otherData']]
     print(f'Other Options: {other_options}')
+
+    # Get suggestions from Bayesian optimizer
+    suggestions = BayesianOptimizer.suggest_params(preferred_option, other_options)
+
+    print(f'Suggestions: {suggestions}')
 
     response = {'message': 'Data received successfully'} # Send response to JavaScript
     return jsonify(response)
