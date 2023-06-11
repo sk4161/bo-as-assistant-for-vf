@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const demoText = document.createElement('div');
             demoText.classList.add('suggested-text');
-            demoText.textContent = 'The University of Tokyo';
+            demoText.textContent = 'Tokyo';
             demoText.style.fontWeight = val[0];
             demoText.style.fontStretch = `${val[1]}%`;
             demoText.style.fontStyle = `oblique ${val[2]}deg`;
