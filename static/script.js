@@ -120,18 +120,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to display denormalized suggestions
     function outputDenormalizedSuggestions(values) {
-        const suggestionContainers = document.querySelectorAll('.suggestion');
-        values.forEach((value, i) => {
-            if (suggestionContainers[i]) {
-                suggestionContainers[i].innerHTML = ''; // Clear the existing suggestions before displaying new ones
-                const demoText = document.createElement('div');
-                demoText.classList.add('demo-text-static'); // Use a different class for the suggested text
-                demoText.textContent = 'The University of Tokyo';
-                demoText.style.fontWeight = value[0];
-                demoText.style.fontStretch = `${value[1]}%`;
-                demoText.style.fontStyle = `oblique ${value[2]}deg`;
-                suggestionContainers[i].appendChild(demoText);
-            }
+        const suggestionsContainer = document.querySelector('#suggestions');
+        suggestionsContainer.innerHTML = '';
+
+        values.forEach(val => {
+            const suggestionContainer = document.createElement('div');
+            suggestionContainer.classList.add('suggestion');
+
+            const demoText = document.createElement('div');
+            demoText.classList.add('suggested-text');
+            demoText.textContent = 'The University of Tokyo';
+            demoText.style.fontWeight = val[0];
+            demoText.style.fontStretch = `${val[1]}%`;
+            demoText.style.fontStyle = `oblique ${val[2]}deg`;
+
+            const selectButton = document.createElement('button');
+            selectButton.textContent = 'Select this style';
+            selectButton.addEventListener('click', function() {
+                sliders.forEach((slider, i) => {
+                    slider.value = val[i];
+                    container.style.setProperty(`--${slider.id}`, val[i]);
+                    document.querySelector(`.output[data-index='${i}']`).innerHTML = val[i];
+                });
+            });
+
+            suggestionContainer.appendChild(demoText);
+            suggestionContainer.appendChild(selectButton);
+            suggestionsContainer.appendChild(suggestionContainer);
         });
     };
 });

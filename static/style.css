@@ -105,13 +105,35 @@ body {
   display: flex;
   justify-content: space-around;
   margin-top: 2rem;
+  flex-wrap: wrap;
 }
 
 .suggestion {
-  flex: 1 0 auto;
-  max-width: calc(100% / 3 - 1rem);
+  flex-basis: 20%;
+  padding: 1rem;
+  margin: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.demo-text-static {
-  font-size: 2rem;
+.suggested-text {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: black;
 }
