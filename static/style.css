@@ -100,3 +100,18 @@ body {
 .slider::-webkit-slider-thumb:active, .slider::-moz-range-thumb:active {
   cursor: grabbing;
 }
+
+#suggestions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.suggestion {
+  flex: 1 0 auto;
+  max-width: calc(100% / 3 - 1rem);
+}
+
+.demo-text-static {
+  font-size: 2rem;
+}

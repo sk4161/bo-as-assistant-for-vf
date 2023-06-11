@@ -118,16 +118,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Function to output denormalized suggestions
-    function outputDenormalizedSuggestions(suggestions) {
-        const outputContainer = document.querySelector('.output-container');
-        outputContainer.innerHTML = ''; // Clear previous output
-
-        for (const suggestion of suggestions) {
-            const suggestionElement = document.createElement('div');
-            suggestionElement.classList.add('suggestion');
-            suggestionElement.textContent = `Suggestion: [${suggestion.join(', ')}]`;
-            outputContainer.appendChild(suggestionElement);
-        }
+    // Function to display denormalized suggestions
+    function outputDenormalizedSuggestions(values) {
+        const suggestionContainers = document.querySelectorAll('.suggestion');
+        values.forEach((value, i) => {
+            if (suggestionContainers[i]) {
+                suggestionContainers[i].innerHTML = ''; // Clear the existing suggestions before displaying new ones
+                const demoText = document.createElement('div');
+                demoText.classList.add('demo-text-static'); // Use a different class for the suggested text
+                demoText.textContent = 'The University of Tokyo';
+                demoText.style.fontWeight = value[0];
+                demoText.style.fontStretch = `${value[1]}%`;
+                demoText.style.fontStyle = `oblique ${value[2]}deg`;
+                suggestionContainers[i].appendChild(demoText);
+            }
+        });
     };
 });

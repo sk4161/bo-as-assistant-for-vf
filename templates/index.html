@@ -8,9 +8,12 @@
 </head>
 <body>
   <main class="container">
+    <h1>Variable Font Slider Demo</h1>
+    <h2>Text</h2>
     <div>
       <div class="demo-text">The University of Tokyo</div>
     </div>
+    <h2>Parameters</h2>
     <div class="controls">
       <!-- Weight Controls -->
       <div class="slider-container">
@@ -40,7 +43,12 @@
         </div>
       </div>
     </div>
-    <div class="output-container"></div>
+    <h2>Suggestions</h2>
+    <div id="suggestions">
+      <div class="suggestion"></div>
+      <div class="suggestion"></div>
+      <div class="suggestion"></div>
+    </div>
   </main>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
