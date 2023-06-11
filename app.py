@@ -26,7 +26,9 @@ def receive_data():
 
     print(f'Suggestions: {suggestions}')
 
-    response = {'message': 'Data received successfully'} # Send response to JavaScript
+    suggestions = suggestions.tolist() # Convert suggestions to list (float64 -> float)
+
+    response = {'suggestions': suggestions} # Send suggestions back to JavaScript
     return jsonify(response)
 
 if __name__ == '__main__':

@@ -94,14 +94,40 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(dataPackage)
         })
-        .then(response => {
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // Denormalize and output suggestions
+            const suggestions = data.suggestions;
+            const denormalizedSuggestions = [];
+
+            for (const suggestion of suggestions) {
+                const denormalizedSuggestion = [];
+                for (let i = 0; i < suggestion.length; i++) {
+                    const { min, max } = sliderRange[i];
+                    const denormalizedValue = Math.round(suggestion[i] * (max - min) + min);
+                    denormalizedSuggestion.push(denormalizedValue);
+                }
+                denormalizedSuggestions.push(denormalizedSuggestion);
+            }
+
+            console.log("Denormalized Suggestions:", denormalizedSuggestions);
+            outputDenormalizedSuggestions(denormalizedSuggestions); // Output denormalized suggestions
         })
         .catch(error => {
             console.error('Error:', error);
         });
-    }
+    };
+
+    // Function to output denormalized suggestions
+    function outputDenormalizedSuggestions(suggestions) {
+        const outputContainer = document.querySelector('.output-container');
+        outputContainer.innerHTML = ''; // Clear previous output
+
+        for (const suggestion of suggestions) {
+            const suggestionElement = document.createElement('div');
+            suggestionElement.classList.add('suggestion');
+            suggestionElement.textContent = `Suggestion: [${suggestion.join(', ')}]`;
+            outputContainer.appendChild(suggestionElement);
+        }
+    };
 });
