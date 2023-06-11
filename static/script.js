@@ -49,22 +49,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         slider.addEventListener('change', function() {
-            const finalValue = {
-                index: sliderIndex,
-                value: this.value
-            };
+            let sliderIndex = parseInt(slider.getAttribute('data-index'));
 
-            let dataPackage = {
-                preferredData: finalValue,
-                otherData: []
-            };
+            // Collect data from all sliders
+            let allData = Array(sliders.length).fill(0); // Initialize allData with zeros
+            let allOtherData = []; // Initialize allOtherData as an empty array
+
+            sliders.forEach(slider => {
+                let index = parseInt(slider.getAttribute('data-index'));
+                allData[index] = slider.value; // Fill allData with the current values of sliders
+            });
 
             if (directionChangeData.has(slider)) {
-                dataPackage.otherData = directionChangeData.get(slider);
-                directionChangeData.delete(slider);
+                // For each direction change data point, create an array of all slider values, replacing the value of the current slider with the direction change data point
+                directionChangeData.get(slider).forEach(data => {
+                    let tempData = [...allData]; // Create a copy of allData
+                    tempData[sliderIndex] = data.value; // Replace the value of the current slider with the direction change data point
+                    allOtherData.push(tempData);
+                });
+                directionChangeData.delete(slider); // Clear the direction change data for the slider
             }
 
-            sendDataToPython(dataPackage);
+            sendDataToPython({preferredData: allData, otherData: allOtherData});
         });
     });
 

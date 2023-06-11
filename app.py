@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import numpy as np
 
 app = Flask(__name__)
 
@@ -10,11 +11,13 @@ def index():
 def receive_data():
     data_package = request.json # Get data sent from JavaScript
 
-    preferred_data = data_package['preferredData']
-    print(f'Preferred Data - Slider Index: {preferred_data["index"]}, Value: {preferred_data["value"]}')
+    # Convert preferred option to numpy array (float64)
+    preferred_option = np.array(data_package['preferredData'], dtype=np.float64)
+    print(f'Preferred Option: {preferred_option}')
 
-    other_data_list = data_package['otherData']
-    print(f'Other Data: {other_data_list}')
+    # Convert other options to a numpy array (float64)
+    other_options = [np.array(data, dtype=np.float64) for data in data_package['otherData']]
+    print(f'Other Options: {other_options}')
 
     response = {'message': 'Data received successfully'} # Send response to JavaScript
     return jsonify(response)
