@@ -28,26 +28,20 @@ document.addEventListener('DOMContentLoaded', function() {
             let currentValue = this.value;
             let currentDirection = previousValue === null ? 0 : (currentValue - previousValue) > 0 ? 1 : -1;
 
-            if (currentDirection !== directionMap.get(slider)) {
+            if (directionMap.get(slider) !== currentDirection) {
                 flagDirectionChanged = true; // Set flag when direction changes
-            } else {
-                if (flagDirectionChanged) { // If direction just got confirmed
-                    if (dataToPython !== null) {
-                        sendDataToPython(dataToPython); // Send data of the point before direction changed
-                    }
-                    dataToPython = null;
-                    flagDirectionChanged = false; // Reset flag
-                }
+                directionMap.set(slider, currentDirection); // Update direction
             }
-            directionMap.set(slider, currentDirection); // Update direction
 
             if (flagDirectionChanged) {
                 dataToPython = {
                     index: sliderIndex,
                     value: previousValue
                 }; // Save data to send if direction change gets confirmed
+                sendDataToPython(dataToPython); // Send data of the point before direction changed
+                flagDirectionChanged = false; // Reset flag
             }
-        
+
             previousValue = currentValue; // Update previousValue for the next 'input' event
         });
 
