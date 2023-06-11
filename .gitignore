@@ -1,5 +1,6 @@
-.venv
+.venv/
+__pycache__/
+
 .python-version
 poetry.lock
 pyproject.toml
-__pycache__
