@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Check for change in direction
             let currentValue = this.value;
             let currentDirection = previousValue === null ? 0 : (currentValue - previousValue) > 0 ? 1 : -1;
-        
+
             if (currentDirection !== directionMap.get(slider)) {
                 flagDirectionChanged = true; // Set flag when direction changes
             } else {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             directionMap.set(slider, currentDirection); // Update direction
-        
+
             if (flagDirectionChanged) {
                 dataToPython = {
                     index: sliderIndex,
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 index: sliderIndex,
                 value: this.value
             };
-        
+
             sendDataToPython(data);
         });
     });
