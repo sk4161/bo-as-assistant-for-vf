@@ -69,8 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 index: buttonIndex,
                 value: resetSlider.defaultValue
             };
-
-            sendDataToPython(data);
         };
     });
 
