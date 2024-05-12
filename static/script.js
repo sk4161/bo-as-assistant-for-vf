@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const container = document.querySelector('.container');
     const sliders = document.querySelectorAll('.slider');
     const sliderValues = document.querySelectorAll('.output');
@@ -25,10 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const output = document.querySelector(`.output[data-index='${sliderIndex}']`);
 
         let previousValue = slider.value; // Initialize previousValue with the initial value of slider
-        let flagDirectionChanged = false; 
+        let flagDirectionChanged = false;
         let dataToPython = null; // Temporarily store data to send to Python
 
-        slider.addEventListener('input', function() {
+        slider.addEventListener('input', function () {
             container.style.setProperty(`--${this.id}`, this.value);
             output.innerHTML = this.value;
 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             previousValue = currentValue; // Update previousValue for the next 'input' event
         });
 
-        slider.addEventListener('change', function() {
+        slider.addEventListener('change', function () {
             let sliderIndex = parseInt(slider.getAttribute('data-index'));
 
             // Collect data from all sliders
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 directionChangeData.delete(slider); // Clear the direction change data for the slider
             }
 
-            sendDataToPython({preferredData: allData, otherData: allOtherData});
+            sendDataToPython({ preferredData: allData, otherData: allOtherData });
         });
     });
 
@@ -94,28 +94,28 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(dataPackage)
         })
-        .then(response => response.json())
-        .then(data => {
-            // Denormalize and output suggestions
-            const suggestions = data.suggestions;
-            const denormalizedSuggestions = [];
+            .then(response => response.json())
+            .then(data => {
+                // Denormalize and output suggestions
+                const suggestions = data.suggestions;
+                const denormalizedSuggestions = [];
 
-            for (const suggestion of suggestions) {
-                const denormalizedSuggestion = [];
-                for (let i = 0; i < suggestion.length; i++) {
-                    const { min, max } = sliderRange[i];
-                    const denormalizedValue = Math.round(suggestion[i] * (max - min) + min);
-                    denormalizedSuggestion.push(denormalizedValue);
+                for (const suggestion of suggestions) {
+                    const denormalizedSuggestion = [];
+                    for (let i = 0; i < suggestion.length; i++) {
+                        const { min, max } = sliderRange[i];
+                        const denormalizedValue = Math.round(suggestion[i] * (max - min) + min);
+                        denormalizedSuggestion.push(denormalizedValue);
+                    }
+                    denormalizedSuggestions.push(denormalizedSuggestion);
                 }
-                denormalizedSuggestions.push(denormalizedSuggestion);
-            }
 
-            console.log("Denormalized Suggestions:", denormalizedSuggestions);
-            outputDenormalizedSuggestions(denormalizedSuggestions); // Output denormalized suggestions
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+                console.log("Denormalized Suggestions:", denormalizedSuggestions);
+                outputDenormalizedSuggestions(denormalizedSuggestions); // Output denormalized suggestions
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 
     // Function to display denormalized suggestions
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const selectButton = document.createElement('button');
             selectButton.textContent = 'Select this style';
-            selectButton.addEventListener('click', function() {
+            selectButton.addEventListener('click', function () {
                 let preferredData = val;
                 let otherData = values.filter(item => item !== val);
                 // Normalize preferredData
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    regenerateButton.addEventListener('click', function() {
+    regenerateButton.addEventListener('click', function () {
         // Get suggeqstions
         const suggestions = document.querySelectorAll('.suggestion');
         const values = Array.from(suggestions, suggestion => {
